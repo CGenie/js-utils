@@ -29,6 +29,7 @@ define([
 
         var locale_is_defined = function() {
             return (_locale !== undefined);
+        }
 
         var current_locale = function() {
             if(locale_is_defined()) {
@@ -39,7 +40,7 @@ define([
         }
 
         var set_locale = function(locale) {
-            if(locale_is_defined()) {
+            if(locale !== undefined) {
                 _locale = locale.split('.')[0];
             }
         }
