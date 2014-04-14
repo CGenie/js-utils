@@ -27,16 +27,19 @@ define([
             }
         }
 
+        var locale_is_defined = function() {
+            return (_locale !== undefined);
+
         var current_locale = function() {
-            if(_locale === undefined) {
-                return 'en_US';
+            if(locale_is_defined()) {
+                return _locale;
             }
 
-            return _locale;
+            return 'en_US';
         }
 
         var set_locale = function(locale) {
-            if(locale !== undefined) {
+            if(locale_is_defined()) {
                 _locale = locale.split('.')[0];
             }
         }
@@ -118,6 +121,8 @@ define([
         }
 
         return {
+            locale_is_defined: locale_is_defined,
+
             settings: settings,
             set_locale: set_locale,
 
