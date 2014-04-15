@@ -1,3 +1,5 @@
+// various useful tools
+
 define([
         'underscore',
         'moment'
