@@ -8,6 +8,9 @@
  * You can also have deeply layered object:
  * <script src="requirejs-namespaced.js" data-requirejs-namespace="MyNamespace.Sub"></script>
  * If MyNamespace or MyNamespace.Sub don't exist, empty object is created.
+ *
+ * TODO: implement data-main correctly (so it doesn't clash with other
+ *       requirejs scripts)
  */
 
 (function() {
