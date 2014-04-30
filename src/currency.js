@@ -55,7 +55,7 @@ define([
         // c -- number of decimal places
         // d -- decimal separator
         // t -- thousands separator
-        var format_money = function(num, c, d, t) {
+        var format_money = function(num, c, d, t, strip_decimal) {
             var n = num, 
                 c = isNaN(c = Math.abs(c)) ? 2 : c, 
                 d = d == undefined ? "." : d, 
@@ -63,18 +63,26 @@ define([
                 s = n < 0 ? "-" : "", 
                 i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
                 j = (j = i.length) > 3 ? j % 3 : 0;
-                return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+            var dec = c ? Math.abs(n - i).toFixed(c).slice(2) : '';
+            if(!!strip_decimal) {
+                dec = ((dec.length > 0) && parseInt(dec) !== 0) ? d + dec : '';
+            } else {
+                dec = (dec.length > 0) ? d + dec : '';
+            }
+            return s +
+                (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) +
+                dec;
         }
 
         // Format price but don't insert the currency symbol
-        var format_price_no_currency = function(price) {
+        var format_price_no_currency = function(price, strip_decimal) {
             var s = settings();
 
             if((price === undefined) || (price === null)) {
                 return s.empty || '-';
             }
 
-            return format_money(price, s.decimal_places, s.decimal, s.thousands);
+            return format_money(price, s.decimal_places, s.decimal, s.thousands, strip_decimal);
         }
 
         // change the currency-formatted price into a standard float
@@ -96,14 +104,14 @@ define([
         }
 
         // Format price -- full format
-        var format_price = function(price) {
+        var format_price = function(price, strip_decimal) {
             var s = settings();
 
             if((price === undefined) || (price === null)) {
                 return s.empty || '-';
             }
 
-            var price = format_price_no_currency(price);
+            var price = format_price_no_currency(price, strip_decimal);
 
             var format = s.format;
             if(format === undefined) {
@@ -113,6 +121,7 @@ define([
                     format = '%(price)%(currency)';
                 }
             }
+
 
             return Tools.replace_vars(
                 format, {
@@ -133,3 +142,4 @@ define([
             format_price: format_price
         }
     });
+
