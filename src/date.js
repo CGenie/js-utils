@@ -44,7 +44,7 @@ define([
 
                 ret.push(str);
             }
-        });
+        };
 
         return ret.join(', ');
     }
