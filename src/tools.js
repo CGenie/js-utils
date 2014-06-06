@@ -150,6 +150,11 @@ define([
             return path + '_' + X + 'x' + Y + '.' + ext;
         }
 
+        // make a deepcopy of object
+        var deepcopy = function(obj) {
+            return JSON.parse(JSON.stringify(obj));
+        };
+
         return {
             duration_friendly_formatter: duration_friendly_formatter,
             days_of_week: days_of_week,
@@ -162,7 +167,8 @@ define([
             url_compare: url_compare,
             href_compare: href_compare,
             parse_url: parse_url,
-            photo_url_thumbnail: photo_url_thumbnail
+            photo_url_thumbnail: photo_url_thumbnail,
+            deepcopy: deepcopy
         }
     }
 );
