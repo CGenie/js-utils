@@ -12,7 +12,12 @@ define([
             period_c;
 
         if(period === undefined) {
-            return;
+            return {
+                years: 0,
+                months: 0,
+                weeks: 0,
+                days: 0
+            };
         }
 
         period_c = JSON.parse(JSON.stringify(period));
